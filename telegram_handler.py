@@ -281,7 +281,7 @@ def telegram_handler() -> None:
 
     application = Application.builder().token(BOT_TOKEN_key).build()
     application.add_handler(CommandHandler("open", open_trades))
-    #application.add_handler(CommandHandler("update", update_script))
+    application.add_handler(CommandHandler("update", update_script))
     application.add_handler(CommandHandler("tradepast", trade_past))
     application.add_handler(CommandHandler("coin", coin_stats))
     application.add_handler(CommandHandler("deletecoin", delete_coin))
