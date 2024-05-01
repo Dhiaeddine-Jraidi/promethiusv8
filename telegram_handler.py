@@ -1,3 +1,5 @@
+#testing v1.2
+
 from telegram import Update, ReplyKeyboardRemove, ReplyKeyboardMarkup
 from tabulate import tabulate
 from sql_integration import *
