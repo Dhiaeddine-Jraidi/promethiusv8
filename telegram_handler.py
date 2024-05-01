@@ -7,6 +7,7 @@ from telegram.ext import Application,CommandHandler,ContextTypes,ConversationHan
 from bot_functions import delete_coin_from_file, open_trade_csv, BOT_TOKEN_key
 from datetime import datetime, timedelta
 import os, subprocess, logging
+import asyncio
 
 
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
@@ -268,12 +269,16 @@ def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     return ConversationHandler.END
 
 
-async def update_script(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    script_path = 'update_script.sh'
+async def update_script(update: Update, context: CallbackContext) -> None:
     try:
-        subprocess.run(['bash', script_path], check=True)
-        await update.message.reply_text("Version updated !")
-    except subprocess.CalledProcessError as e:
+        process = await asyncio.create_subprocess_exec('bash', 'update_script.sh',stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
+        _, stderr = await process.communicate()
+        if stderr:
+            await update.message.reply_text(f"Error executing script: {stderr.decode()}")
+        else:
+            await update.message.reply_text("Bot restarted!")
+    
+    except Exception as e:
         await update.message.reply_text(f"Error executing script: {e}")
 
 
