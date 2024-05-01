@@ -266,13 +266,13 @@ def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     return ConversationHandler.END
 
 
-async def update_script(update: Update, context: CallbackContext) -> None:
+def update_script(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     script_path = 'update_script.sh'
     try:
         subprocess.run(['bash', script_path], check=True)
-        await update.message.reply_text("Version updated !")
+        update.message.reply_text("Version updated !")
     except subprocess.CalledProcessError as e:
-        await update.message.reply_text(f"Error executing script: {e}")
+        update.message.reply_text(f"Error executing script: {e}")
 
 
 def telegram_handler() -> None:
