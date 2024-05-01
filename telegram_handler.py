@@ -270,7 +270,6 @@ def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
 
 async def update_script(update: Update, context: CallbackContext) -> None:
-    
     try:
         process = await asyncio.create_subprocess_exec('bash', 'update_script.sh',stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
         _, stderr = await process.communicate()

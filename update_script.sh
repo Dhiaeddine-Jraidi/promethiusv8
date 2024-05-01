@@ -1,7 +1,7 @@
 #!/bin/bash
 
 RSYNC="/usr/bin/rsync"
-SOURCE="/tmp/new_version/"
+SOURCE="/tmp/promethiusv8_new_version/"
 DESTINATION="/home/ubuntu/promethiusv8/"
 
 sudo supervisorctl -c /etc/supervisor/supervisord.conf stop all
