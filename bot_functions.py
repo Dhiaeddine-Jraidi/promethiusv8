@@ -9,7 +9,7 @@ import random
 import string
 import csv
 import json
-from ML import predict_probability
+from ml import predict_probability
 
 BOT_TOKEN_key = "6566859554:AAHN0ZeuI4Ojrd5II60lcH6y8-hIJ4OLXMk"
 open_trade_csv = "files/download/open_trades.csv"
