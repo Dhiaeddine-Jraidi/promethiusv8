@@ -1,12 +1,12 @@
 from telegram import Update, ReplyKeyboardRemove, ReplyKeyboardMarkup
-import logging
 from tabulate import tabulate
 from sql_integration import *
-import os
-import logging
 from telegram.ext import Application,CommandHandler,ContextTypes,ConversationHandler,MessageHandler,filters, CallbackContext
 from bot_functions import delete_coin_from_file, open_trade_csv, BOT_TOKEN_key
 from datetime import datetime, timedelta
+import os, subprocess, logging
+
+
 
 
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
@@ -268,10 +268,20 @@ def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     return ConversationHandler.END
 
 
+async def update_script(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    script_path = 'update_script.sh' 
+    try:
+        subprocess.run(['bash', script_path], check=True)
+        print("Script executed successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error executing script: {e}")
+
+
 def telegram_handler() -> None:
 
     application = Application.builder().token(BOT_TOKEN_key).build()
     application.add_handler(CommandHandler("open", open_trades))
+    application.add_handler(CommandHandler("update", update_script))
     application.add_handler(CommandHandler("tradepast", trade_past))
     application.add_handler(CommandHandler("coin", coin_stats))
     application.add_handler(CommandHandler("deletecoin", delete_coin))
