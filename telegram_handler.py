@@ -270,6 +270,7 @@ def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
 
 async def update_script(update: Update, context: CallbackContext) -> None:
+    
     try:
         process = await asyncio.create_subprocess_exec('bash', 'update_script.sh',stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
         _, stderr = await process.communicate()
@@ -277,7 +278,6 @@ async def update_script(update: Update, context: CallbackContext) -> None:
             await update.message.reply_text(f"Error executing script: {stderr.decode()}")
         else:
             await update.message.reply_text("Bot restarted!")
-    
     except Exception as e:
         await update.message.reply_text(f"Error executing script: {e}")
 
@@ -286,7 +286,7 @@ def telegram_handler() -> None:
 
     application = Application.builder().token(BOT_TOKEN_key).build()
     application.add_handler(CommandHandler("open", open_trades))
-    #application.add_handler(CommandHandler("update", update_script))
+    application.add_handler(CommandHandler("update", update_script))
     application.add_handler(CommandHandler("tradepast", trade_past))
     application.add_handler(CommandHandler("coin", coin_stats))
     application.add_handler(CommandHandler("deletecoin", delete_coin))
