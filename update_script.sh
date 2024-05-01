@@ -1,18 +1,16 @@
 #!/bin/bash
 
-# Stop all processes managed by supervisor
-sudo supervisorctl -c /etc/supervisor/supervisord.conf stop all
+RSYNC="/usr/bin/rsync"
+SOURCE="/tmp/new_version/"
+DESTINATION="/home/ubuntu/promethiusv8/"
 
-# Clone the new version into a temporary directory
+sudo supervisorctl -c /etc/supervisor/supervisord.conf stop all
+cd ~/promethiusv8
+sudo rm -rf __pycache__
+sudo find . -type f ! \( -name 'open_trades.csv' -o -name 'syfer_PendingTrades.json' -o -name 'temporary_finished_trade.csv' -o -name 'update_script.py' -o -name 'update_script.sh' \) -exec rm -v {} +
 sudo mkdir -p /tmp/new_version
 cd /tmp/new_version
 sudo git clone https://github.com/Dhiaeddine-Jraidi/promethiusv8.git .
-
-# Copy all files except updater.py and update_script.sh to ~/promethiusv8
-sudo rsync -av --exclude='update_script.py' --exclude='update_script.sh' ./ ~/promethiusv8
-
-# Clean up temporary directory
-cd ~
+sudo $RSYNC -av --exclude='update_script.sh' --exclude='update_script.py' $SOURCE $DESTINATION
 sudo rm -rf /tmp/new_version
-sudo rm -rf ~/promethiusv8/files/download/tracking_opened_trades_logger.txt ~/promethiusv8/files/download/telegram_handler_logger.txt ~/promethiusv8/files/download/main_logger.txt
 sudo supervisorctl -c /etc/supervisor/supervisord.conf start all

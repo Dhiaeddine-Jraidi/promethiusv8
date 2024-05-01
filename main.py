@@ -1,4 +1,4 @@
-# Project Promethius V6
+# Project Promethius V10
 
 from bot_functions import *
 from STRATEGY_kerberos import *
