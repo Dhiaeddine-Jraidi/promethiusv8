@@ -7,8 +7,6 @@ from datetime import datetime, timedelta
 import os, subprocess, logging
 
 
-
-
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
@@ -268,20 +266,20 @@ def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     return ConversationHandler.END
 
 
-async def update_script(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    script_path = 'update_script.sh' 
+async def update_script(update: Update, context: CallbackContext) -> None:
+    script_path = 'update_script.sh'
     try:
         subprocess.run(['bash', script_path], check=True)
-        print("Script executed successfully.")
+        await update.message.reply_text("Version updated !")
     except subprocess.CalledProcessError as e:
-        print(f"Error executing script: {e}")
+        await update.message.reply_text(f"Error executing script: {e}")
 
 
 def telegram_handler() -> None:
 
     application = Application.builder().token(BOT_TOKEN_key).build()
     application.add_handler(CommandHandler("open", open_trades))
-    #application.add_handler(CommandHandler("update", update_script))
+    application.add_handler(CommandHandler("update", update_script))
     application.add_handler(CommandHandler("tradepast", trade_past))
     application.add_handler(CommandHandler("coin", coin_stats))
     application.add_handler(CommandHandler("deletecoin", delete_coin))
@@ -293,11 +291,9 @@ def telegram_handler() -> None:
     },
     fallbacks=[CommandHandler('cancel', cancel)],
     )
-
     application.add_handler(download_handler)
 
     application.run_polling(allowed_updates=Update.ALL_TYPES)
-
 
 if __name__ == "__main__":
     telegram_handler()
