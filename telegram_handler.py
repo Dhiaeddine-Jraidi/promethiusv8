@@ -272,12 +272,17 @@ async def update_script(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     try:
         process = await asyncio.create_subprocess_exec('bash', 'update_script.sh', stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
         _, stderr = await process.communicate()
-        await update.message.reply_text("Update completed successfully !")
-        if stderr:
-            with open("files/download/telegram_handler_logger.txt", "a") as file:
+        
+        if stderr and b"error" in stderr.lower():  # Check if stderr contains 'error'
+            with open("files/download/logger.txt", "a") as file:
                 file.write(stderr.decode())
+            await update.message.reply_text(f"Error executing script: {stderr}")
+        else:
+            await update.message.reply_text("Update completed successfully !")
+
     except Exception as e:
         await update.message.reply_text(f"Error executing script: {e}")
+
 
 
 def telegram_handler() -> None:
