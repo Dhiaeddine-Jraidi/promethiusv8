@@ -273,9 +273,11 @@ async def update_script(update: Update, ContextTypes.DEFAULT_TYPE) -> None:
         process = await asyncio.create_subprocess_exec('bash', 'update_script.sh', stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
         _, stderr = await process.communicate()
         await update.message.reply_text("Update completed successfully !")
+        '''
         if stderr:
             with open("files/download/telegram_handler_logger.txt", "a") as file:
                 file.write(stderr.decode())
+        '''
     except Exception as e:
         await update.message.reply_text(f"Error executing script: {e}")
 
