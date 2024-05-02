@@ -273,9 +273,9 @@ async def update_script(update: Update, context: CallbackContext) -> None:
     try:
         process = await asyncio.create_subprocess_exec('bash', 'update_script.sh',stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
         _, stderr = await process.communicate()
-        print(stderr)
+        await update.message.reply_text("Update completed successfully !")
         if stderr:
-            await update.message.reply_text(f"Error executing script: {stderr.decode()}")
+            await update.message.reply_text(f"Error executing script: {stderr}")
         else:
             await update.message.reply_text("Bot restarted!")
     except Exception as e:
