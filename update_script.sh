@@ -14,6 +14,6 @@ sudo git clone https://github.com/Dhiaeddine-Jraidi/promethiusv8.git .
 sudo $RSYNC -av --exclude='update_script.sh' $SOURCE $DESTINATION
 cd $DESTINATION
 sudo pip install -r requirements.txt
-sudo cp -f ~/promethiusv8/promethius.conf /etc/supervisor/conf.d/promethius.conf
+sudo cp -f ~/promethiusv8/promethius_runner.conf /etc/supervisor/conf.d/promethius_runner.conf
 sudo rm -rf $SOURCE
 sudo supervisorctl -c /etc/supervisor/supervisord.conf start all

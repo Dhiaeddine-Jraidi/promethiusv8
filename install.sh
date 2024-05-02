@@ -8,5 +8,5 @@ sudo chmod a+rwx promethiusv8
 cd promethiusv8
 sudo chmod +x update_script.sh
 sudo pip install -r requirements.txt
-sudo cp -f ~/promethiusv8/promethius.conf /etc/supervisor/conf.d/promethius.conf
+sudo cp -f ~/promethiusv8/promethius_runner.conf /etc/supervisor/conf.d/promethius_runner.conf
 sudo supervisorctl -c /etc/supervisor/supervisord.conf
