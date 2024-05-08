@@ -97,7 +97,10 @@ def process_trade(trade_id, trade_data, trade_to_remove, open_trades):
         trade_data['exit_time_str'] = exit_time_str
         trade_data['trade_result'] = trade_result
         trade_data['formated_exit_time'] = (pd.to_datetime(exit_time_str, format='%d-%m-%Y %I:%M%p')).strftime('%d %B')
-        send_message(f"Order result of: {trade_data['trade_id']}\n\nGradientBoostingClassifier: {int(trade_data['gradientboostingclassifier']*100)}\nRandomForestClassifier: {int(trade_data['randomforestclassifier']*100)}\nXGBClassifier:{int(trade_data['xgbclassifier']*100)}\nStrategy: {trade_data['strategy']}\nPosition period: {trade_data['period_hours']:.2f} hours\nSymbol: {symbol}\nEntry price: {entry_price}\nPosition: {side}\nTake Profit: {trade_data['exit_price_TP']} || ({round(take_profit_percent*100,2)}%)\nStop Loss: {trade_data['exit_price_SL']} || ({round(stop_loss_percent*100,2)}%)\nResult: {trade_result}\nEntry Time: {trade_data['entry_time_str']}\nExit time: {exit_time_str}\nTimeframe: {trade_data['timeframe']}\nPNL: {(trade_data['pnl']*100):.2f}%")
+        gb_classifier = int(trade_data['gradientboostingclassifier'] * 100) if not pd.isna(trade_data['gradientboostingclassifier']) else None
+        rf_classifier = int(trade_data['randomforestclassifier'] * 100) if not pd.isna(trade_data['randomforestclassifier']) else None
+        xgb_classifier = int(trade_data['xgbclassifier'] * 100) if not pd.isna(trade_data['xgbclassifier']) else None
+        send_message(f"Order result of: {trade_data['trade_id']}\n\nGradientBoostingClassifier: {gb_classifier}\nRandomForestClassifier: {rf_classifier}\nXGBClassifier: {xgb_classifier}\nStrategy: {trade_data['strategy']}\nPosition period: {trade_data['period_hours']:.2f} hours\nSymbol: {symbol}\nEntry price: {entry_price}\nPosition: {side}\nTake Profit: {trade_data['exit_price_TP']} || ({round(take_profit_percent*100,2)}%)\nStop Loss: {trade_data['exit_price_SL']} || ({round(stop_loss_percent*100,2)}%)\nResult: {trade_result}\nEntry Time: {trade_data['entry_time_str']}\nExit time: {exit_time_str}\nTimeframe: {trade_data['timeframe']}\nPNL: {(trade_data['pnl']*100):.2f}%")
         finishedtrades_columns = list(trade_data.index)
         trade_data_to_write = trade_data.values.tolist()
         write_to_csv(temporary_finished_trades_csv, finishedtrades_columns, trade_data_to_write)
