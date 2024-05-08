@@ -41,15 +41,12 @@ def predict_probability(dict, model_path, number_of_previous_trades):
     try:
         keys_to_keep = ['symbol','side','take_profit_percent', 'stop_loss_percent','strategy', 'timeframe','entry_day_of_week','entry_hour', 'aroon_up','aroon_down', 'rsi','macd','24h_volume']
         dict = {key: dict[key] for key in keys_to_keep}
-        print(f"dict:{dict}")
         output_trades_data = pd.read_csv(output_final_trades)
         filtered_df = output_trades_data[(output_trades_data['symbol'] == dict['symbol']) & (output_trades_data['strategy'] == dict['strategy'])]
-        print(filtered_df)
         if len(filtered_df) >= number_of_previous_trades : 
             scaled_dict = scale_dict_values(output_trades_data, dict['symbol'], dict)    
             encoder_data = pd.read_csv(encode_csv_path)
             scaled_decoded_dict = decode_dict_features(scaled_dict, encoder_data)
-            print(f"scaled_dict:{scaled_decoded_dict}")
             feature_names = list(scaled_decoded_dict.keys())
             features = list(scaled_decoded_dict.values())
             with open(model_path, 'rb') as file:
