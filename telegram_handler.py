@@ -283,20 +283,20 @@ async def update_script(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
 
 
 async def send_loggers(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-
     directory = "./files/logger/"
 
     if not os.path.exists(directory):
         await update.message.reply_text("Directory not found.")
         return
-    try:
-        files = os.listdir(directory)
-        for file in files:
+
+    files = os.listdir(directory)
+    for file in files:
+        try:
             with open(os.path.join(directory, file), 'rb') as f:
                 await context.bot.send_document(chat_id=update.effective_chat.id, document=f)
- 
-    except Exception as e:
-        await update.message.reply_text("Problem occured in uploading")
+        except Exception as e:
+            print(f"Problem occurred in uploading {file}: {e}")
+            continue
 
 
 
