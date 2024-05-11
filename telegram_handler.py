@@ -295,7 +295,7 @@ async def send_loggers(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             with open(os.path.join(directory, file), 'rb') as f:
                 await context.bot.send_document(chat_id=update.effective_chat.id, document=f)
         except Exception as e:
-            print(f"Problem occurred in uploading {file}: {e}")
+            await update.message.reply_text(f"{file}: {e}")
             continue
 
 
