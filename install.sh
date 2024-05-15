@@ -26,7 +26,7 @@ if [ ! -d "$LOGGER_DIRECTORY" ]; then
 fi
 
 
-sudo cp -f ~/promethiusv8/promethius_runner.conf /etc/supervisor/conf.d/promethius_runner.conf
+sudo cp -f /home/ubuntu/promethiusv8/promethius_runner.conf /etc/supervisor/conf.d/promethius_runner.conf
 sudo supervisorctl -c /etc/supervisor/supervisord.conf reread
 sudo supervisorctl -c /etc/supervisor/supervisord.conf update
 sudo supervisorctl -c /etc/supervisor/supervisord.conf start all
