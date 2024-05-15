@@ -9,8 +9,11 @@ sudo apt install -y python3 python3-pip git supervisor
 sudo service supervisor start
 git clone https://github.com/Dhiaeddine-Jraidi/promethiusv8.git
 sudo chmod a+rwx promethiusv8
+sudo chmod +x /home/ubuntu/promethiusv8/files/soft_update_script.sh
+sudo chmod +x /home/ubuntu/promethiusv8/files/hard_update_script.sh
+
+
 cd promethiusv8
-sudo chmod +x update_script.sh
 sudo pip install -r requirements.txt
 
 if [ ! -d "$DOWNLOAD_DIRECTORY" ]; then
