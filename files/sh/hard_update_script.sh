@@ -8,6 +8,7 @@ LOGGER_DIRECTORY="/home/ubuntu/promethiusv8/files/logger/"
 
 
 sudo supervisorctl -c /etc/supervisor/supervisord.conf stop all
+sudo truncate -s 0 /var/log/supervisor/supervisord.log
 cd $DESTINATION
 sudo rm -rf __pycache__
 sudo find . -type f ! \( -name 'hard_update_script.sh' \) -exec rm -v {} +

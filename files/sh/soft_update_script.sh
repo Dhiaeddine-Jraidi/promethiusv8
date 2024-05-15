@@ -8,6 +8,8 @@ LOGGER_DIRECTORY="/home/ubuntu/promethiusv8/files/logger/"
 
 
 sudo supervisorctl -c /etc/supervisor/supervisord.conf stop all
+sudo truncate -s 0 /var/log/supervisor/supervisord.log
+
 cd $DESTINATION
 sudo rm -rf __pycache__
 sudo find . -type f ! \( -name 'XGBClassifier.pkl' -o -name 'RandomForestClassifier.pkl' -o -name 'GradientBoostingClassifier.pkl' -o -name 'last_ml_train_check_time.json' -o -name 'output_final_trades2.csv' -o -name 'output_final_trades.csv' -o -name 'open_trades.csv' -o -name 'syfer_PendingTrades.json' -o -name 'temporary_finished_trade.csv' -o -name 'soft_update_script.sh' -o -name 'hard_update_script.sh' \) -exec rm -v {} +
