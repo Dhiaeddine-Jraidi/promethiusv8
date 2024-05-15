@@ -297,7 +297,8 @@ async def hard_update_script(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
 async def send_loggers(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     try:
-        await asyncio.create_subprocess_exec('sudo', 'cp', '-f', '/var/log/supervisor/supervisord.log', '/home/ubuntu/promethiusv8/files/logger/', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = await asyncio.create_subprocess_exec('sudo', 'cp', '-f', '/var/log/supervisor/supervisord.log', '/home/ubuntu/promethiusv8/files/logger/', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        await process.communicate()
         directory = "./files/logger/"
         files = os.listdir(directory)
         for file in files:
