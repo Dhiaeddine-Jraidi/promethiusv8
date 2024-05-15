@@ -314,7 +314,7 @@ def telegram_handler() -> None:
     application.add_handler(CommandHandler("open", open_trades))
     application.add_handler(CommandHandler("logger", send_loggers))
     application.add_handler(CommandHandler("hardupdate", hard_update_script))
-    application.add_handler(CommandHandler("softupdate", hard_update_script))
+    application.add_handler(CommandHandler("softupdate", soft_update_script))
     application.add_handler(CommandHandler("tradepast", trade_past))
     application.add_handler(CommandHandler("coin", coin_stats))
     application.add_handler(CommandHandler("deletecoin", delete_coin))
